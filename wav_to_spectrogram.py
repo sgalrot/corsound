@@ -75,13 +75,11 @@ if __name__ == "__main__":
         Sxx_to_save = resize(Sxx_to_save, image_resize_shape, anti_aliasing=True)
         splitted_path = wav_file_path.split('/')
         write_path = './jpeg/' + '/'.join(splitted_path[-3:])[:-3] + 'jpeg'
+        #TODO: change from try except to a function
         try:
             imsave(write_path, Sxx_to_save)
         except:
             path_mkdir = './jpeg/' + '/'.join(splitted_path[-3:-1])
             pathlib.Path(path_mkdir).mkdir(parents=True, exist_ok=True)
             imsave(write_path, Sxx_to_save)
-
-
-
 
