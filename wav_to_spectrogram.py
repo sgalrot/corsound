@@ -79,7 +79,8 @@ if __name__ == "__main__":
         signal_wav_after_vad = signal_wav_filtered[np.where(ynew>0)]
          
         #Spectrogram
-        f, t, Sxx = signal.spectrogram(signal_wav_after_vad, samplerate, nfft = 8192, nperseg=1024, noverlap=64)
+        f, t, Sxx = signal.spectrogram(signal_wav_after_vad, samplerate, nfft = 16384, nperseg=2048, noverlap=64)
+        #TODO: make sure :160 is ~255Hz
         Sxx_to_save = Sxx[:160, :]
         image_resize_shape = [160,160]
         Sxx_to_save = resize(Sxx_to_save, image_resize_shape, anti_aliasing=True)
