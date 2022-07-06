@@ -19,7 +19,7 @@ from copy import deepcopy
 
 # Usage: python rVAD_fast_2.0.py inWaveFile  outputVadLabel
 
-def rVAD_fast(input_wav, ftThres=0.4, vadThres=0.3):
+def rVAD_fast(input_wav, ftThres=0.5, vadThres=0.4):
 
     winlen, ovrlen, pre_coef, nfilter, nftt = 0.025, 0.01, 0.97, 20, 512
     opts=1
