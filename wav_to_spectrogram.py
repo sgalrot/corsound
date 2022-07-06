@@ -8,6 +8,7 @@ import torch
 from torchvision import datasets
 from skimage.transform import resize
 from skimage.io import imread, imsave
+from skimage import img_as_ubyte
 from scipy.io import wavfile
 from scipy.signal import butter,filtfilt
 from scipy import interpolate, signal
@@ -15,6 +16,7 @@ from scipy import interpolate, signal
 sys.path.insert(0, './rvad')
 from rVAD.rVAD_fast import rVAD_fast
 import pathlib
+import progressbar
 
 # Refs:
 #  [1] Z.-H. Tan, A.k. Sarkara and N. Dehak, "rVAD: an unsupervised segment-based robust voice activity detection method," Computer Speech and Language, vol. 59, pp. 1-21, 2020. 
@@ -43,7 +45,15 @@ if __name__ == "__main__":
             if file.endswith(".wav"):
                 files_list.append(os.path.join(root, file))
 
+  
+    progress = progressbar.ProgressBar()
+    #for i in progress(range(30)):
+    #    import time
+    #    time.sleep(1)
+    progress_iter = iter(progress(range(len(files_list))))
     for wav_file_path in files_list:
+        progress_iter.next()
+
         samplerate, signal_wav = wavfile.read(wav_file_path)
         length = signal_wav.shape[0] / samplerate
 
@@ -73,6 +83,8 @@ if __name__ == "__main__":
         Sxx_to_save = Sxx[:160, :]
         image_resize_shape = [160,160]
         Sxx_to_save = resize(Sxx_to_save, image_resize_shape, anti_aliasing=True)
+        Sxx_to_save = img_as_ubyte(Sxx_to_save/np.max(Sxx_to_save))
+        
         splitted_path = wav_file_path.split('/')
         write_path = './jpeg/' + '/'.join(splitted_path[-3:])[:-3] + 'jpeg'
         #TODO: change from try except to a function
