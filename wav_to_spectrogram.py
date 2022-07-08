@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tqdm.notebook as tqdm
 import torch
+import scipy.signal as sps
 from torchvision import datasets
 from skimage.transform import resize
 from skimage.io import imread, imsave
@@ -59,8 +60,14 @@ if __name__ == "__main__":
 
         if len(signal_wav.shape) > 1:
             signal_wav = signal_wav[:,0]
-       
-        vad = rVAD_fast(wav_file_path)    
+        new_rate = 16000
+        before_vad_filename = "before_vad_decimated.wav"
+        number_of_samples = round(len(signal_wav) * float(new_rate) / samplerate)
+        signal_wav_decimated = sps.resample(signal_wav, number_of_samples)
+        wavfile.write(before_vad_filename, samplerate, signal_wav)
+
+
+        vad = rVAD_fast(before_vad_filename)    
         vad_length = len(vad)
         time = np.linspace(0., length, signal_wav.shape[0])
         time2 = np.linspace(0., length, vad_length)
