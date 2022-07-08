@@ -48,9 +48,6 @@ if __name__ == "__main__":
 
   
     progress = progressbar.ProgressBar()
-    #for i in progress(range(30)):
-    #    import time
-    #    time.sleep(1)
     progress_iter = iter(progress(range(len(files_list))))
     for wav_file_path in files_list:
         progress_iter.next()
@@ -93,6 +90,7 @@ if __name__ == "__main__":
         Sxx_to_save = Sxx[:160, :]
         image_resize_shape = [160,160]
         Sxx_to_save = resize(Sxx_to_save, image_resize_shape, anti_aliasing=True)
+        Sxx_to_save =  20*np.log(Sxx_to_save)
         Sxx_to_save = img_as_ubyte(Sxx_to_save/np.max(Sxx_to_save))
         
         splitted_path = wav_file_path.split('/')
