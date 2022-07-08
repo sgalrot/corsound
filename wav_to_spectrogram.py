@@ -77,6 +77,8 @@ if __name__ == "__main__":
         xnew = time
         ynew = f(time)   # use interpolation function returned by `nearest`
         signal_wav_after_vad = signal_wav_filtered[np.where(ynew>0)]
+        if len(signal_wav_after_vad) == 0:
+            continue
          
         #Spectrogram
         f, t, Sxx = signal.spectrogram(signal_wav_after_vad, samplerate, nfft = 16384, nperseg=2048, noverlap=64)
