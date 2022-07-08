@@ -91,7 +91,7 @@ if __name__ == "__main__":
         image_resize_shape = [160,160]
         Sxx_to_save = resize(Sxx_to_save, image_resize_shape, anti_aliasing=True)
         Sxx_to_save =  20*np.log(Sxx_to_save)
-        Sxx_to_save = img_as_ubyte(Sxx_to_save/np.max(Sxx_to_save))
+        Sxx_to_save = img_as_ubyte((Sxx_to_save-np.min(Sxx_to_save))/(np.max(Sxx_to_save)-np.min(Sxx_to_save)))
         
         splitted_path = wav_file_path.split('/')
         write_path = './jpeg/' + '/'.join(splitted_path[-3:])[:-3] + 'jpeg'
